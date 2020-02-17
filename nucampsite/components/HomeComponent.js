@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -44,6 +44,35 @@ function RenderItems(props) {
 }
 
 class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            opacity: new Animated.Value(0),
+            translate: new Animated.Value(-100)
+        }
+
+    }
+
+    animate() {
+        Animated.timing(
+            this.state.opacity,
+            {
+                toValue: 1,
+                duration: 1000,
+            }
+        ).start();
+        Animated.timing(
+            this.state.translate,
+            {
+                toValue: 0,
+                duration: 500,
+            }
+        ).start();
+    }
+
+    componentDidMount() {
+        this.animate();
+    }
 
     static navigationOptions = {
         title: 'Home'
@@ -51,7 +80,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <ScrollView>
+            <Animated.ScrollView style={{opacity: this.state.opacity, transform: [{translateY: this.state.translate}]}}>
                 <RenderItems
                     item={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]} 
                     isLoading={this.props.campsites.isLoading}
@@ -64,7 +93,7 @@ class Home extends React.Component {
                     item={this.props.partners.partners.filter(partner => partner.featured)[0]} 
                     isLoading={this.props.partners.isLoading}
                     errMess={this.props.partners.errMess} />    
-            </ScrollView>
+            </Animated.ScrollView>
         )
     }
 }
