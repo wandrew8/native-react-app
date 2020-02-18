@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Alert, PanResponder } from 'react-native';
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -23,9 +23,41 @@ const mapDispatchToProps = {
 
 function RenderCampsite(props) {
     const { campsite } = props;
+    const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onPanResponderEnd: (event, gestureState) => {
+            console.log(event)
+            console.log(gestureState)
+            if (recognizeDrag(gestureState)) {
+                Alert.alert(
+                    'Add Favorite',
+                    'Are you should you wish to add ' + campsite.name + ' to favorites',
+                    [
+                        {
+                            text: 'Cancel',
+                            style: 'cancel',
+                            onPress: () => console.log('cancel Pressed')
+                        },
+                        {
+                            text: 'OK',
+                            onPress: () => props.favorite ?
+                                console.log('Aready in your favorites') : props.markFavorite(),
+                        }
+                    ],
+                    { cancelable: false },
+                )
+            }
+            return true;
+        }
+    })
     if (campsite) {
         return (
-            <Animatable.View animation='fadeInDown' duration={500} delay={500}>
+            <Animatable.View 
+                animation='fadeInDown' 
+                duration={500} 
+                delay={500}
+                {...panResponder.panHandlers}>
                 <Card 
                     featuredTitle={campsite.name}
                     image={{uri: baseUrl + campsite.image}}>
