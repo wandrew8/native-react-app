@@ -8,13 +8,13 @@ import Loading from './components/LoadingComponent';
 const { persistor, store } = ConfigureStore();
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <PersistGate 
-        loading={<Loading/>}
-        persistor={persistor} />
-      <Main />
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate
+                loading={<Loading />}
+                persistor={persistor}>
+                <Main />
+            </PersistGate>
+        </Provider>
+    );
 }
-
