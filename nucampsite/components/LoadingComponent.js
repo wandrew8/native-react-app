@@ -15,6 +15,7 @@ const styles = StyleSheet.create(
         loadingView: {
             alignItems: 'center',
             justifyContent: 'center',
+            margin: 30,
             flex: 1,
         },
         loadingText: {
