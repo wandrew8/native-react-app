@@ -1,9 +1,9 @@
 {
-  "devToolsPort": 19003,
+  "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19004,
-  "packagerPid": 21724,
-  "expoServerNgrokUrl": "https://s8-8s3.anonymous.nucampsite.exp.direct",
-  "packagerNgrokUrl": "https://packager.s8-8s3.anonymous.nucampsite.exp.direct",
-  "ngrokPid": 18908
+  "packagerPort": 19001,
+  "packagerPid": 17268,
+  "expoServerNgrokUrl": "https://z3-kgt.anonymous.nucampsite.exp.direct",
+  "packagerNgrokUrl": "https://packager.z3-kgt.anonymous.nucampsite.exp.direct",
+  "ngrokPid": 16708
 }

@@ -7,12 +7,13 @@ import CampsiteInfo from './CampsiteInfoComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoritesComponent';
 import Login from './LoginComponent';
-import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import { View, Platform, StyleSheet, Text, ScrollView, Image, Alert, ToastAndroid } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createStackNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
+import NetInfo from '@react-native-community/netinfo';
 
 const mapDispatchToProps = {
     fetchCampsites,
@@ -323,6 +324,11 @@ class Main extends React.Component {
         this.props.fetchComments();
         this.props.fetchPartners();
         this.props.fetchPromotions();
+        NetInfo.fetch().then(connectionInfo => {
+            (Platform.OS === 'ios') ?
+                Alert.alert('Inital Netword Connectivity Type: ', connectionInfo.type)
+                : ToastAndroid.show('Inital Network Connectivity Type: ' + connectionInfo.type, ToastAndroid.LONG);
+        })
     }
 
     render() {
