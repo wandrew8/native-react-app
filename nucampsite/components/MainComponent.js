@@ -328,7 +328,35 @@ class Main extends React.Component {
             (Platform.OS === 'ios') ?
                 Alert.alert('Inital Netword Connectivity Type: ', connectionInfo.type)
                 : ToastAndroid.show('Inital Network Connectivity Type: ' + connectionInfo.type, ToastAndroid.LONG);
-        })
+        });
+
+        this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
+            this.handleConnectivityChange(connectionInfo);
+        });
+    }
+
+    componentWillUnmount() {
+        this.unsubscribeNetInfo();
+    }
+
+    handleConnectivityChange = connectionInfo => {
+        let connectionMsg = 'You are now connected to an active network.'
+        switch (connectionInfo.type) {
+            case 'none':
+                connectionMsg = 'No network connection is active.';
+                break;
+            case 'unknown':
+                connectionMsg = 'The network connection state is unknown';
+                break;
+            case 'cellular':
+                connectionMsg = 'You are now connected to a cellular network';
+                break;
+            case 'wifi':
+                connectionMsg = 'You are now connected to a wifi network';
+                break;
+        }
+        (Platform.OS === 'ios') ? Alert.alert('Connection change ', connectionMsg)
+            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG);
     }
 
     render() {
